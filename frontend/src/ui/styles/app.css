@@ -1,0 +1,406 @@
+@import 'tailwindcss';
+
+/* The packages' per-subset CSS leaves out unicode-range, so the faces are declared here.
+   DM Sans covers Latin; Noto Sans Thai covers only Thai, so Thai text (names) still renders. */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('@fontsource/dm-sans/files/dm-sans-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('@fontsource/dm-sans/files/dm-sans-latin-700-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Noto Sans Thai';
+  font-weight: 400;
+  font-display: swap;
+  src: url('@fontsource/noto-sans-thai/files/noto-sans-thai-thai-400-normal.woff2') format('woff2');
+  unicode-range: U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC;
+}
+
+@font-face {
+  font-family: 'Noto Sans Thai';
+  font-weight: 700;
+  font-display: swap;
+  src: url('@fontsource/noto-sans-thai/files/noto-sans-thai-thai-700-normal.woff2') format('woff2');
+  unicode-range: U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC;
+}
+
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-mint: #f3faf4;
+  --color-g900: #1f3a24;
+  --color-g800: #26482c;
+  --color-g700: #2f5a35;
+  --color-g600: #3c7a45;
+  --color-g300: #5e9e62;
+  --color-g200: #bddcbf;
+  --color-g100: #e3f1e4;
+  --color-pear: #b5d95a;
+  --color-pear-100: #eef5d6;
+  --color-ink: #1a1f1b;
+  --color-ink-2: #36413a;
+  --color-ink-3: #59655d;
+  --color-rule: #dbe7dc;
+  --color-danger: #c0392f;
+  --color-danger-wash: #fdf1f0;
+  --color-danger-line: #f2cdc9;
+  --color-info: #2a58b5;
+  --color-amber: #b26a00;
+  --color-amber-text: #8a5a00;
+  --color-amber-wash: #fdf0d8;
+  --color-amber-line: #f0d9a8;
+
+  --font-display: 'DM Sans', 'Noto Sans Thai', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'DM Sans', 'Noto Sans Thai', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+
+  --shadow-lg: 0 1px 2px rgb(31 58 36 / 0.08), 0 4px 10px -4px rgb(31 58 36 / 0.12), 0 22px 44px -26px rgb(31 58 36 / 0.42);
+  --shadow-sm: 0 10px 24px -16px rgb(31 58 36 / 0.35);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-pop: cubic-bezier(0.16, 1, 0.3, 1);
+  --default-transition-duration: 200ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-rise: rise 420ms var(--ease-pop) both;
+  --animate-pop: pop 360ms var(--ease-pop) both;
+  --animate-badge: badge 360ms var(--ease-pop) both;
+  --animate-bob: bob 520ms var(--ease-pop);
+  --animate-drop: drop 300ms var(--ease-pop) both;
+  --animate-shake: shake 360ms var(--ease-out);
+  --animate-roll: roll 360ms var(--ease-pop) both;
+  --animate-slot-in: slot-in 320ms var(--ease-pop) both;
+  --animate-page-next: page-next 300ms var(--ease-pop) both;
+  --animate-page-back: page-back 300ms var(--ease-pop) both;
+  --animate-row-in: row-in 360ms var(--ease-pop) both;
+  --animate-sweep: sweep 900ms var(--ease-out) 120ms both;
+  --animate-strike-out: strike-out 600ms var(--ease-out) both;
+  --animate-lock-on: lock-on 420ms var(--ease-out) both;
+  --animate-lock-brief: lock-on 420ms var(--ease-out) both, let-go 480ms var(--ease-out) 1200ms both;
+  --animate-drop-notif: drop-notif 420ms var(--ease-pop) both;
+  --animate-saved: drop-notif 420ms var(--ease-pop) both, lock-on 420ms var(--ease-out) 200ms both;
+  --animate-settle: settle 320ms var(--ease-pop);
+  --animate-shimmer: shimmer 1400ms ease-in-out infinite;
+  --animate-appear: appear 200ms ease-out 140ms both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+    }
+  }
+
+  @keyframes badge {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+  }
+
+  @keyframes bob {
+    35% {
+      transform: translateY(-7px);
+    }
+
+    70% {
+      transform: translateY(1px);
+    }
+  }
+
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes shake {
+    20%,
+    60% {
+      transform: translateX(-6px);
+    }
+
+    40%,
+    80% {
+      transform: translateX(5px);
+    }
+  }
+
+  @keyframes roll {
+    from {
+      opacity: 0;
+      transform: translateY(0.5em);
+    }
+  }
+
+  @keyframes slot-in {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
+  }
+
+  @keyframes page-next {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+  }
+
+  @keyframes page-back {
+    from {
+      opacity: 0;
+      transform: translateX(-24px);
+    }
+  }
+
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes sweep {
+    from {
+      opacity: 1;
+      transform: translateX(-100%);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes strike-out {
+    0% {
+      text-decoration: line-through transparent;
+    }
+
+    40% {
+      text-decoration: line-through var(--color-danger);
+      opacity: 1;
+      transform: none;
+    }
+
+    100% {
+      text-decoration: line-through var(--color-danger);
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+  }
+
+  @keyframes lock-on {
+    from {
+      background-color: transparent;
+      box-shadow: 0 0 0 2px transparent;
+    }
+
+    to {
+      background-color: var(--color-pear-100);
+      box-shadow: 0 0 0 2px var(--color-pear);
+    }
+  }
+
+  @keyframes let-go {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes drop-notif {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.96);
+    }
+  }
+
+  @keyframes settle {
+    from {
+      transform: scale(1.012);
+      box-shadow: 0 0 0 5px rgb(94 158 98 / 0.22);
+    }
+  }
+
+  @keyframes shimmer {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* Each list item sets --i; the cap keeps a long list from making the last row wait. */
+@utility stagger {
+  animation-delay: calc(min(var(--i, 0), 8) * 40ms);
+}
+
+@property --fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* The scroll timeline is inactive when the table fits, so the fade only shows while columns are cut off. */
+@utility scroll-fade-x {
+  mask-image: linear-gradient(to left, transparent, #000 var(--fade, 0px));
+
+  @supports (animation-timeline: scroll()) {
+    animation: scroll-fade linear both;
+    animation-timeline: scroll(self inline);
+  }
+}
+
+@keyframes scroll-fade {
+  0%,
+  90% {
+    --fade: 40px;
+  }
+
+  100% {
+    --fade: 0px;
+  }
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background: var(--color-mint);
+    scrollbar-color: var(--color-g200) transparent;
+  }
+
+  body {
+    background: var(--color-mint);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-synthesis: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  button,
+  nav,
+  th,
+  label,
+  legend {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background: var(--color-pear-100);
+    color: var(--color-g900);
+  }
+
+  input {
+    caret-color: var(--color-g600);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-g600);
+    outline-offset: 2px;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  a {
+    color: var(--color-g600);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    text-underline-offset: 3px;
+    border-radius: 4px;
+    transition: text-decoration-color 150ms;
+  }
+
+  a:hover {
+    color: var(--color-g700);
+    text-decoration-color: currentColor;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+}
+
+/* Route changes: only the leaving page animates; the arriving page runs its own rise and slot-in. */
+::view-transition-old(root),
+::view-transition-new(root),
+::view-transition-new(.page-out) {
+  animation: none;
+}
+
+::view-transition-old(.page-out) {
+  animation: page-out 160ms var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Pinned, not stretched: the text would distort while the content's box glides to its new width. */
+::view-transition-group(.content-shift) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-pop);
+}
+
+::view-transition-old(.content-shift),
+::view-transition-new(.content-shift) {
+  height: 100%;
+  width: auto;
+  object-fit: none;
+  object-position: left top;
+}
+
+::view-transition-old(.content-shift) {
+  animation-duration: 120ms;
+}

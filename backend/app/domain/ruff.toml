@@ -1,0 +1,17 @@
+# The domain is pure Python: frameworks, drivers and crypto libraries belong to outer layers.
+# A nested ruff.toml replaces the parent's banned-api table, so every layer lists all of its bans.
+extend = "../../pyproject.toml"
+
+[lint.flake8-tidy-imports.banned-api]
+"fastapi".msg = "domain must not depend on the web framework"
+"starlette".msg = "domain must not depend on the web framework"
+"pydantic".msg = "domain entities are dataclasses; parsing happens at the HTTP boundary"
+"pydantic_settings".msg = "settings are read in infrastructure"
+"sqlalchemy".msg = "domain must not depend on the database"
+"asyncpg".msg = "domain must not depend on the database"
+"alembic".msg = "migrations belong to infrastructure"
+"jwt".msg = "token handling is behind the TokenIssuer port"
+"bcrypt".msg = "hashing is behind the PasswordHasher port"
+"app.usecases".msg = "dependencies point inward: domain cannot import usecases"
+"app.interface".msg = "dependencies point inward: domain cannot import interface"
+"app.infrastructure".msg = "dependencies point inward: domain cannot import infrastructure"

@@ -1,0 +1,13 @@
+# Handlers turn HTTP into usecase calls. They never reach the database or pick adapters.
+# A nested ruff.toml replaces the parent's banned-api table, so every layer lists all of its bans.
+extend = "../../../pyproject.toml"
+
+[lint.flake8-tidy-imports.banned-api]
+"sqlalchemy".msg = "handlers call usecases; the database is behind the repository ports"
+"asyncpg".msg = "handlers call usecases; the database is behind the repository ports"
+"alembic".msg = "migrations belong to infrastructure"
+"jwt".msg = "token handling is behind the TokenIssuer port"
+"bcrypt".msg = "hashing is behind the PasswordHasher port"
+"pydantic_settings".msg = "settings are read in infrastructure and passed in"
+"app.interface.repositories".msg = "handlers never import repositories; infrastructure wires them"
+"app.infrastructure".msg = "dependencies point inward: handlers cannot import infrastructure"

@@ -1,0 +1,14 @@
+# Repositories implement the domain ports with SQLAlchemy and return domain entities.
+# A nested ruff.toml replaces the parent's banned-api table, so every layer lists all of its bans.
+extend = "../../../pyproject.toml"
+
+[lint.flake8-tidy-imports.banned-api]
+"fastapi".msg = "repositories must not depend on the web framework"
+"starlette".msg = "repositories must not depend on the web framework"
+"pydantic".msg = "repositories return domain entities, not schemas"
+"pydantic_settings".msg = "settings are read in infrastructure and passed in"
+"jwt".msg = "token handling is behind the TokenIssuer port"
+"bcrypt".msg = "hashing is behind the PasswordHasher port"
+"app.usecases".msg = "repositories implement domain ports; they never call usecases"
+"app.interface.handlers".msg = "repositories never import handlers"
+"app.infrastructure".msg = "dependencies point inward: repositories cannot import infrastructure"

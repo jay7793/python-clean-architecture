@@ -1,0 +1,16 @@
+# Usecases see only the domain: ports come in through constructors.
+# A nested ruff.toml replaces the parent's banned-api table, so every layer lists all of its bans.
+extend = "../../pyproject.toml"
+
+[lint.flake8-tidy-imports.banned-api]
+"fastapi".msg = "usecases must not depend on the web framework"
+"starlette".msg = "usecases must not depend on the web framework"
+"pydantic".msg = "usecases take and return domain entities; parsing happens at the HTTP boundary"
+"pydantic_settings".msg = "settings are read in infrastructure"
+"sqlalchemy".msg = "usecases must not depend on the database"
+"asyncpg".msg = "usecases must not depend on the database"
+"alembic".msg = "migrations belong to infrastructure"
+"jwt".msg = "use the TokenIssuer port"
+"bcrypt".msg = "use the PasswordHasher port"
+"app.interface".msg = "dependencies point inward: usecases cannot import interface"
+"app.infrastructure".msg = "dependencies point inward: usecases cannot import infrastructure"

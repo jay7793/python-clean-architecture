@@ -1,0 +1,50 @@
+name: python-clean-architecture
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: golang-first-api
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  api:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      GOAPP_NAME: GOLANG FIRST API APP
+      GOAPP_VERSION: 0.0.1
+      GOAPP_POSTGRES_DB_NAME: postgres
+      GOAPP_POSTGRES_DB_USER: postgres
+      GOAPP_POSTGRES_DB_PASSWORD: golang-first-api
+      GOAPP_POSTGRES_DB_HOST: db
+      GOAPP_POSTGRES_DB_PORT: 5432
+      # Dev only. Anyone with this repository can sign tokens for this stack.
+      GOAPP_SECRET_KEY: dev-only-6f1c9a3e8b7d4f20a5c1e9b3d7f2a8c4
+      GOAPP_JWT_ACCESS_EXPIRES: 86400
+      GOAPP_JWT_REFRESH_EXPIRES: 172800
+      GOAPP_CORS_ORIGINS: '["http://localhost:8080", "http://localhost:5173"]'
+      # Creates the public demo accounts on start. Leave it out anywhere real data lives.
+      GOAPP_SEED_DEMO: "true"
+      # Admins can see the demo accounts but not edit, delete or sign them out.
+      GOAPP_PROTECTED_EMAILS: '["admin@demo.test", "member@demo.test"]'
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
